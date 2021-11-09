@@ -939,20 +939,20 @@ To install Application Live View:
     $ tanzu package available list appliveview.tanzu.vmware.com --namespace tap-install
     - Retrieving package versions for appliveview.tanzu.vmware.com...
       NAME                          VERSION  RELEASED-AT
-      appliveview.tanzu.vmware.com  0.3.0-build6  2021-10-26T00:00:00Z
+      appliveview.tanzu.vmware.com  0.3.0    2021-10-26T00:00:00Z
     ```
 
 1. (Optional) To make changes to the default installation settings, run:
 
     ```bash
-    tanzu package available get appliveview.tanzu.vmware.com/0.3.0-build6 --values-schema --namespace tap-install
+    tanzu package available get appliveview.tanzu.vmware.com/0.3.0 --values-schema --namespace tap-install
     ```
 
     For example:
 
     ```bash
-    $ tanzu package available get appliveview.tanzu.vmware.com/0.3.0-build6 --values-schema --namespace tap-install
-    - Retrieving package details for appliveview.tanzu.vmware.com/0.3.0-build6...
+    $ tanzu package available get appliveview.tanzu.vmware.com/0.3.0 --values-schema --namespace tap-install
+    - Retrieving package details for appliveview.tanzu.vmware.com/0.3.0...
       KEY                   DEFAULT        TYPE    DESCRIPTION
       connector_namespaces  [default]      array   The namespaces in which ALV monitors the users apps
       service_type          ClusterIP      string  The service type for the Application Live View server can be LoadBalancer, NodePort, or ClusterIP
@@ -983,13 +983,13 @@ To install Application Live View:
 1. Install the package by running:
 
     ```console
-    tanzu package install app-live-view -p appliveview.tanzu.vmware.com -v 0.3.0-build6 -n tap-install -f app-live-view-values.yaml
+    tanzu package install app-live-view -p appliveview.tanzu.vmware.com -v 0.3.0 -n tap-install -f app-live-view-values.yaml
     ```
 
     For example:
 
     ```console
-    $ tanzu package install app-live-view -p appliveview.tanzu.vmware.com -v 0.3.0-build6 -n tap-install -f app-live-view-values.yaml
+    $ tanzu package install app-live-view -p appliveview.tanzu.vmware.com -v 0.3.0 -n tap-install -f app-live-view-values.yaml
     - Installing package 'appliveview.tanzu.vmware.com'
     | Getting package metadata for 'appliveview.tanzu.vmware.com'
     | Creating service account 'app-live-view-tap-install-sa'
@@ -2117,7 +2117,7 @@ Use the following procedure to verify that the packages are installed.
     NAME                     PACKAGE-NAME                                       PACKAGE-VERSION  STATUS
     api-portal               api-portal.tanzu.vmware.com                        1.0.3            Reconcile succeeded
     app-accelerator          accelerator.apps.tanzu.vmware.com                  0.4.0            Reconcile succeeded
-    app-live-view            appliveview.tanzu.vmware.com                       0.3.0-build6     Reconcile succeeded
+    app-live-view            appliveview.tanzu.vmware.com                       0.3.0            Reconcile succeeded
     cartographer             cartographer.tanzu.vmware.com                      0.0.7            Reconcile succeeded
     cloud-native-runtimes    cnrs.tanzu.vmware.com                              1.0.3            Reconcile succeeded
     convention-controller    controller.conventions.apps.tanzu.vmware.com       0.4.2            Reconcile succeeded

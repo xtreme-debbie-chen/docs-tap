@@ -39,8 +39,8 @@ To install SCST - Store:
 
     ```console
     $ kubectl get storageClass
-    NAME                 PROVISIONER             RECLAIMPOLICY   VOLUMEBINDINGMODE      ALLOWVOLUMEEXPANSION   AGE
-    standard (default)   rancher.io/local-path   Delete          WaitForFirstConsumer   false                  7s
+    NAME                 PROVISIONER              RECLAIMPOLICY   VOLUMEBINDINGMODE      ALLOWVOLUMEEXPANSION   AGE
+    standard (default)   csi.vsphere.vmware.com   Delete          WaitForFirstConsumer   false                  7s
     ```
 
 1. List version information for the package using `tanzu package available list`.

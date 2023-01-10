@@ -52,16 +52,51 @@ This is because the cluster where Store is deployed does not have `storageclass`
 
 ### <a id='missing-persistent-volume-solution'></a>Solution
 
-1. Verify that your cluster has `storageclass` by running `kubectl get storageclass`.
-2. Create a `storageclass` in your cluster before deploying Store. For example:
+The following steps should not be used in production environments. 
 
+1. Verify that your cluster has `storageclass` CRD by running `kubectl get storageclass`. 
+1. Create a local `storageclass` (which does not support dynamic provisioning).
     ```console
-    # This is the storageclass that Kind uses
-    kubectl apply -f https://raw.githubusercontent.com/rancher/local-path-provisioner/master/deploy/local-path-storage.yaml
-
-    # set the storage class as default
-    kubectl patch storageclass local-path -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
+    cat <<EOF | kubectl apply -f -
+    kind: StorageClass
+    apiVersion: storage.k8s.io/v1
+    metadata:
+      name: local-storage
+      annotations: 
+        storageclass.kubernetes.io/is-default-class: "true"
+    provisioner: kubernetes.io/no-provisioner
+    volumeBindingMode: WaitForFirstConsumer 
+    EOF
     ```
+1. Create the volume on the host 
+    Retrieve the name of the desired node: `kubectl get nodes -o wide`
+    ```
+    kubectl debug node/NODE-NAME --image ubuntu:22.04 -it
+    mkdir -p /data/volumes/pv1
+    chmod 777 /data/volumes/pv1
+    ```
+1. Create persistent volume that would use the newly created storageclass to be bound to SCST - Store.
+    ```console
+    cat << EOF | kubectl apply -f -
+    apiVersion: v1
+    kind: PersistentVolume
+    metadata:
+      name: store-pv
+    spec:
+      capacity:
+        storage: 10Gi
+      accessModes:
+      - ReadWriteOnce
+      persistentVolumeReclaimPolicy: Retain
+      storageClassName: local-storage
+      local:
+        path: /data/volumes/pv1
+      <this doesn't work yet - still experimenting>
+    EOF
+    ```
+
+For production environments, please refer to the [official Storage Classes docs](https://kubernetes.io/docs/concepts/storage/storage-classes/#provisioner) for provisioners that would be appropriate to install on your cluster. 
+
 
 ## <a id="eks-1-23-volume"></a> Builds fail due to volume errors on EKS running Kubernetes v1.23
 
